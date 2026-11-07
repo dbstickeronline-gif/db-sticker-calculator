@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DB Sticker Online Calculator</title>
+<style>
+*{box-sizing:border-box}
+body{
+font-family:Arial,sans-serif;
+background:#f3f4f6;
+padding:16px;
+color:#111827;
+}
+main{
+max-width:500px;
+margin:auto;
+background:white;
+padding:22px;
+border-radius:16px;
+}
+h2{margin:0}
+label{
+display:block;
+margin-top:18px;
+font-weight:bold;
+}
+input,select{
+width:100%;
+padding:13px;
+margin-top:7px;
+border:1px solid #cbd5e1;
+border-radius:9px;
+font-size:16px;
+}
+.result{
+background:#111827;
+color:white;
+padding:22px;
+margin-top:25px;
+border-radius:12px;
+}
+strong{
+color:#facc15;
+font-size:32px;
+}
+small{color:#64748b}
+</style>
+</head>
+<body>
+<main>
+<h2>DB STICKER ONLINE</h2>
+<p>Smart Price Calculator</p>
+
+<label>Material</label>
+<select id="material">
+<option value="0.35" data-unit="inci">
+Reflective Vinyl
+</option>
+<option value="0.20" data-unit="inci">
+Non Reflective Vinyl
+</option>
+<option value="35" data-unit="kaki">
+PVC Sticker
+</option>
+<option value="45" data-unit="kaki">
+3M Reflective Sticker
+</option>
+<option value="4" data-unit="kaki">
+Bunting
+</option>
+<option value="4" data-unit="kaki">
+Banner
+</option>
+<option value="40" data-unit="kaki">
+Transparent Sticker
+</option>
+<option value="45" data-unit="kaki">
+Transparent Sticker with White Ink
+</option>
+<option value="6" data-unit="A3">
+Mirrorcoat Sticker A3
+</option>
+<option value="8" data-unit="A3">
+White PP Sticker A3
+</option>
+<option value="10" data-unit="A3">
+Transparent Sticker A3
+</option>
+</select>
+
+<div id="dimensions">
+<label id="widthLabel">Lebar (inci)</label>
+<input id="w" type="number" min="0" step="any" value="5">
+
+<label id="heightLabel">Tinggi (inci)</label>
+<input id="h" type="number" min="0" step="any" value="1">
+</div>
+
+<label>Kuantiti</label>
+<input id="q" type="number" min="1" step="1" value="1">
+
+<div class="result">
+<p>Jumlah Harga</p>
+<strong id="total">RM 0.00</strong>
+<p id="details"></p>
+</div>
+
+<small>
+Versi ujian pengiraan. Belum untuk quotation pelanggan.
+</small>
+</main>
+
+<script>
+const material=document.getElementById("material");
+const w=document.getElementById("w");
+const h=document.getElementById("h");
+const q=document.getElementById("q");
+const total=document.getElementById("total");
+const details=document.getElementById("details");
+const dimensions=document.getElementById("dimensions");
+
+function calculate(){
+const selected=material.selectedOptions[0];
+const unit=selected.dataset.unit;
+const rate=Number(selected.value);
+const qty=Number(q.value);
+const width=Number(w.value);
+const height=Number(h.value);
+
+dimensions.style.display=unit==="A3"?"none":"block";
+
+document.getElementById("widthLabel").textContent="Lebar ("+unit+")";
+document.getElementById("heightLabel").textContent="Tinggi ("+unit+")";
+
+let price=0;
+if(unit==="A3"){
+price=rate*qty;
+}else{
+price=width*height*rate*qty;
+}
+
+if(qty<1||!Number.isInteger(qty)||width<0||height<0){
+total.textContent="Semak ukuran";
+details.textContent="";
+return;
+}
+
+total.textContent="RM "+price.toFixed(2);
+details.textContent=unit==="A3"
+?qty+" keping A3 × RM"+rate.toFixed(2)
+:width+" × "+height+" × RM"+rate.toFixed(2)+" × "+qty;
+}
+
+[material,w,h,q].forEach(el=>{
+el.addEventListener("input",calculate);
+el.addEventListener("change",calculate);
+});
+
+calculate();
+</script>
+</body>
+</html>
