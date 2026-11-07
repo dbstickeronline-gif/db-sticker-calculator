@@ -4,160 +4,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DB Sticker Online Calculator</title>
+<title>DB Sticker Online V5</title>
 <style>
 *{box-sizing:border-box}
-body{
-font-family:Arial,sans-serif;
-background:#f3f4f6;
-padding:16px;
-color:#111827;
-}
-main{
-max-width:500px;
-margin:auto;
-background:white;
-padding:22px;
-border-radius:16px;
-}
-h2{margin:0}
-label{
-display:block;
-margin-top:18px;
-font-weight:bold;
-}
-input,select{
-width:100%;
-padding:13px;
-margin-top:7px;
-border:1px solid #cbd5e1;
-border-radius:9px;
-font-size:16px;
-}
-.result{
-background:#111827;
-color:white;
-padding:22px;
-margin-top:25px;
-border-radius:12px;
-}
-strong{
-color:#facc15;
-font-size:32px;
-}
-small{color:#64748b}
+body{margin:0;background:#edf0f4;color:#111827;font:16px Arial,sans-serif}
+header{background:#111827;color:white;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:24px}
+header p{margin:8px 0 0;color:#facc15}
+main{max-width:720px;margin:auto;padding:14px}
+section{background:white;border-radius:16px;padding:18px;margin-bottom:14px}
+h2{font-size:20px;margin:0 0 16px}
+label{display:block;font-weight:bold;margin:13px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px;background:white}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:9px;padding:13px;font-size:15px;font-weight:bold;cursor:pointer}
+.yellow{background:#facc15;color:#111827}
+.grey{background:#e5e7eb;color:#111827}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.result{background:#111827;color:white;border-radius:13px;padding:20px;margin-top:15px}
+.total{font-size:32px;color:#facc15;font-weight:bold;margin:10px 0}
+.row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #e5e7eb}
+.row span:last-child{text-align:right;font-weight:bold}
+.note{font-size:13px;color:#64748b;line-height:1.5}
+.warning{background:#fff3cd;padding:12px;border-radius:9px;color:#854d0e;margin-top:12px}
+.good{color:#15803d;font-weight:bold}
+.hidden{display:none}
+details{margin-top:12px}
+summary{font-weight:bold;cursor:pointer;padding:8px 0}
+@media(max-width:380px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<header>
+<h1>DB STICKER ONLINE</h1>
+<p>SMART CALCULATOR V5</p>
+</header>
 <main>
-<h2>DB STICKER ONLINE</h2>
-<p>Smart Price Calculator</p>
 
+<section>
+<h2>Kalkulator Harga</h2>
 <label>Material</label>
-<select id="material">
-<option value="0.35" data-unit="inci">
-Reflective Vinyl
-</option>
-<option value="0.20" data-unit="inci">
-Non Reflective Vinyl
-</option>
-<option value="35" data-unit="kaki">
-PVC Sticker
-</option>
-<option value="45" data-unit="kaki">
-3M Reflective Sticker
-</option>
-<option value="4" data-unit="kaki">
-Bunting
-</option>
-<option value="4" data-unit="kaki">
-Banner
-</option>
-<option value="40" data-unit="kaki">
-Transparent Sticker
-</option>
-<option value="45" data-unit="kaki">
-Transparent Sticker with White Ink
-</option>
-<option value="6" data-unit="A3">
-Mirrorcoat Sticker A3
-</option>
-<option value="8" data-unit="A3">
-White PP Sticker A3
-</option>
-<option value="10" data-unit="A3">
-Transparent Sticker A3
-</option>
-</select>
+<select id="mat"></select>
+<p id="rateInfo" class="note"></p>
 
-<div id="dimensions">
-<label id="widthLabel">Lebar (inci)</label>
-<input id="w" type="number" min="0" step="any" value="5">
-
-<label id="heightLabel">Tinggi (inci)</label>
-<input id="h" type="number" min="0" step="any" value="1">
+<div id="sizeFields">
+<div class="grid">
+<div><label id="wl">Lebar</label><input id="w" type="number" value="12" min="0" step="any"></div>
+<div><label id="hl">Tinggi</label><input id="h" type="number" value="12" min="0" step="any"></div>
+</div>
 </div>
 
-<label>Kuantiti</label>
-<input id="q" type="number" min="1" step="1" value="1">
+<div class="grid">
+<div><label>Kuantiti</label><input id="qty" type="number" value="1" min="1" step="1"></div>
+<div><label>Diskaun (%)</label><input id="discount" type="number" value="0" min="0" max="100"></div>
+</div>
+<label>Caj tambahan (RM)</label>
+<input id="extra" type="number" value="0" min="0" step="any">
+
+<div id="pvcSettings" class="hidden">
+<h2 style="margin-top:22px">Susunan Artwork PVC / 3M</h2>
+<p class="note">Masukkan ukuran artwork dalam kaki. Sistem mencuba orientasi biasa dan putaran 90 darjah. Saiz panel maksimum 10 × 4 kaki.</p>
+<div class="grid">
+<div><label>Margin tepi (inci)</label><input id="margin" type="number" value="1" min="0" step="any"></div>
+<div><label>Jarak potong (inci)</label><input id="gap" type="number" value="0.25" min="0" step="any"></div>
+</div>
+</div>
 
 <div class="result">
-<p>Jumlah Harga</p>
-<strong id="total">RM 0.00</strong>
-<p id="details"></p>
+<div>JUMLAH HARGA JUALAN</div>
+<div id="total" class="total">RM0.00</div>
+<div id="summary"></div>
 </div>
+<div id="layoutResult"></div>
+<div class="actions">
+<button class="yellow" onclick="copyQuote()">Salin Quotation</button>
+<button class="grey" onclick="sendWA()">WhatsApp</button>
+<button class="grey" onclick="window.print()">Cetak / PDF</button>
+</div>
+</section>
 
-<small>
-Versi ujian pengiraan. Belum untuk quotation pelanggan.
-</small>
+<section>
+<h2>Kos Modal & Keuntungan</h2>
+<p class="note">Kos disimpan pada peranti ini sahaja. Jangan masukkan maklumat sulit ke dalam kod GitHub.</p>
+<label>Kaedah kos</label>
+<select id="costMethod">
+<option value="unit">Kos seunit / sekaki² / seinci²</option>
+<option value="pack">Harga belian roll / pek</option>
+</select>
+<div id="unitCostBox">
+<label>Kos modal bagi satu unit harga (RM)</label>
+<input id="unitCost" type="number" value="0" min="0" step="any">
+</div>
+<div id="packCostBox" class="hidden">
+<div class="grid">
+<div><label>Harga belian (RM)</label><input id="packPrice" type="number" value="0" min="0" step="any"></div>
+<div><label>Jumlah unit dalam roll / pek</label><input id="packUnits" type="number" value="1" min="0" step="any"></div>
+</div>
+</div>
+<div class="row"><span>Kos anggaran</span><span id="costDisplay">—</span></div>
+<div class="row"><span>Untung kasar anggaran</span><span id="profitDisplay">—</span></div>
+<div class="row"><span>Margin kasar</span><span id="marginDisplay">—</span></div>
+<button class="grey" style="margin-top:12px" onclick="saveCost()">Simpan Kos Pada Peranti</button>
+</section>
+
+<section>
+<details>
+<summary>Tetapan Kadar Harga Admin</summary>
+<p class="note">Kadar harga jualan boleh diubah dan disimpan pada pelayar ini.</p>
+<div id="adminRates"></div>
+<button class="yellow" style="margin-top:12px" onclick="saveRates()">Simpan Kadar Harga</button>
+</details>
+</section>
+<p class="note">V5 beta: susunan grid segi empat adalah anggaran. Sahkan artwork, bleed, orientasi dan kos sebelum keluarkan quotation.</p>
 </main>
 
 <script>
-const material=document.getElementById("material");
-const w=document.getElementById("w");
-const h=document.getElementById("h");
-const q=document.getElementById("q");
-const total=document.getElementById("total");
-const details=document.getElementById("details");
-const dimensions=document.getElementById("dimensions");
+const materials=[
+{id:"rv",name:"Reflective Vinyl",unit:"inci²",rate:0.35,type:"inch"},
+{id:"nv",name:"Non Reflective Vinyl",unit:"inci²",rate:0.20,type:"inch"},
+{id:"pvc",name:"PVC Sticker + Lamination",unit:"kaki²",rate:35,type:"panel"},
+{id:"3m",name:"3M Reflective + Lamination",unit:"kaki²",rate:45,type:"panel"},
+{id:"bunting",name:"Bunting",unit:"kaki²",rate:4,type:"foot"},
+{id:"banner",name:"Banner",unit:"kaki²",rate:4,type:"foot"},
+{id:"trans",name:"Transparent Sticker",unit:"kaki²",rate:40,type:"foot"},
+{id:"whiteink",name:"Transparent Sticker with White Ink",unit:"kaki²",rate:45,type:"foot"},
+{id:"mirror",name:"Mirrorcoat Sticker",unit:"A3",rate:6,type:"a3"},
+{id:"pp",name:"White PP Sticker",unit:"A3",rate:8,type:"a3"},
+{id:"transa3",name:"Transparent Sticker",unit:"A3",rate:10,type:"a3"}
+];
+const $=id=>document.getElementById(id);
+const num=id=>Number($(id).value);
+const money=n=>"RM"+n.toLocaleString("en-MY",{minimumFractionDigits:2,maximumFractionDigits:2});
+const key="dbsticker_v5_rates";
+const costKey="dbsticker_v5_costs";
+let rates={};
+let costs={};
+let current=null;
 
-function calculate(){
-const selected=material.selectedOptions[0];
-const unit=selected.dataset.unit;
-const rate=Number(selected.value);
-const qty=Number(q.value);
-const width=Number(w.value);
-const height=Number(h.value);
+try{rates=JSON.parse(localStorage.getItem(key))||{}}catch(e){}
+try{costs=JSON.parse(localStorage.getItem(costKey))||{}}catch(e){}
 
-dimensions.style.display=unit==="A3"?"none":"block";
-
-document.getElementById("widthLabel").textContent="Lebar ("+unit+")";
-document.getElementById("heightLabel").textContent="Tinggi ("+unit+")";
-
-let price=0;
-if(unit==="A3"){
-price=rate*qty;
-}else{
-price=width*height*rate*qty;
-}
-
-if(qty<1||!Number.isInteger(qty)||width<0||height<0){
-total.textContent="Semak ukuran";
-details.textContent="";
-return;
-}
-
-total.textContent="RM "+price.toFixed(2);
-details.textContent=unit==="A3"
-?qty+" keping A3 × RM"+rate.toFixed(2)
-:width+" × "+height+" × RM"+rate.toFixed(2)+" × "+qty;
-}
-
-[material,w,h,q].forEach(el=>{
-el.addEventListener("input",calculate);
-el.addEventListener("change",calculate);
+materials.forEach(m=>{
+if(typeof rates[m.id]==="number"&&rates[m.id]>=0)m.rate=rates[m.id];
+const opt=document.createElement("option");
+opt.value=m.id;
+opt.textContent=m.name+" ("+m.unit+")";
+$("mat").appendChild(opt);
 });
 
+function panelLayout(w,h,qty,margin,gap){
+const mw=margin/12,g=gap/12;
+const options=[];
+for(const pw of [2,4,6,8,10]){
+for(const ph of [2,2.5,3,3.5,4]){
+for(const rotate of [false,true]){
+const aw=rotate?h:w,ah=rotate?w:h;
+const usableW=pw-2*mw,usableH=ph-2*mw;
+const cols=Math.max(0,Math.floor((usableW+g+1e-9)/(aw+g)));
+const rows=Math.max(0,Math.floor((usableH+g+1e-9)/(ah+g)));
+const capacity=cols*rows;
+if(capacity<1)continue;
+options.push({pw,ph,rotate,cols,rows,capacity,area:pw*ph});
+}
+}
+}
+if(!options.length)return null;
+
+// Dynamic programming for minimum material area.
+const dp=Array(qty+1).fill(Infinity);
+const choice=Array(qty+1).fill(null);
+dp[0]=0;
+for(let n=1;n<=qty;n++){
+for(const p of options){
+const prev=Math.max(0,n-p.capacity);
+const value=dp[prev]+p.area;
+if(value<dp[n]-1e-9){
+dp[n]=value;choice[n]=p;
+}
+}
+}
+const panels=[];
+let left=qty;
+while(left>0){
+const p=choice[left];
+if(!p)return null;
+const used=Math.min(left,p.capacity);
+panels.push({...p,used});
+left-=used;
+}
+return {panels,area:dp[qty]};
+}
+
+function calculate(){
+const m=materials.find(x=>x.id===$("mat").value);
+const w=num("w"),h=num("h"),qty=num("qty");
+const disc=num("discount"),extra=num("extra");
+const valid=qty>0&&Number.isInteger(qty)&&
+w>0&&h>0&&disc>=0&&disc<=100&&extra>=0;
+$("sizeFields").classList.toggle("hidden",m.type==="a3");
+$("pvcSettings").classList.toggle("hidden",m.type!=="panel");
+$("wl").textContent="Lebar ("+(m.type==="inch"?"inci":"kaki")+")";
+$("hl").textContent="Tinggi ("+(m.type==="inch"?"inci":"kaki")+")";
+$("rateInfo").textContent="Kadar: "+money(m.rate)+" / "+m.unit;
+if(!valid&&m.type!=="a3"||qty<1||!Number.isInteger(qty)||disc<0||disc>100||extra<0){
+$("total").textContent="Semak input";
+$("summary").textContent="Masukkan ukuran dan kuantiti yang sah.";
+$("layoutResult").innerHTML="";
+current=null;updateCost();return;
+}
+let area=0,layout=null,description="";
+if(m.type==="a3"){
+area=qty;description=qty+" keping A3";
+}else if(m.type==="panel"){
+const margin=num("margin"),gap=num("gap");
+if(margin<0||gap<0){
+$("total").textContent="Semak margin";
+current=null;updateCost();return;
+}
+layout=panelLayout(w,h,qty,margin,gap);
+if(!layout){
+$("total").textContent="Tidak muat";
+$("summary").textContent="Artwork tidak muat dalam panel maksimum 10 × 4 kaki.";
+$("layoutResult").innerHTML="";
+current=null;updateCost();return;
+}
+area=layout.area;
+description=layout.panels.length+" panel, "+area+" kaki²";
+}else{
+area=w*h*qty;
+description=w+" × "+h+" × "+qty+" = "+area+" "+m.unit;
+}
+const subtotal=area*m.rate;
+const discountValue=subtotal*disc/100;
+const total=subtotal-discountValue+extra;
+$("total").textContent=money(total);
+$("summary").textContent=description+" | Kadar "+money(m.rate)+"/"+m.unit;
+$("layoutResult").innerHTML="";
+if(layout){
+const box=document.createElement("div");
+box.className="warning";
+const title=document.createElement("b");
+title.textContent="Cadangan panel material:";
+box.appendChild(title);
+layout.panels.forEach((p,i)=>{
+const line=document.createElement("p");
+line.textContent="Panel "+(i+1)+": "+p.pw+" × "+p.ph+" kaki, "+p.used+" artwork"+(p.rotate?" (diputar)":"");
+box.appendChild(line);
+});
+$("layoutResult").appendChild(box);
+}
+current={m,w,h,qty,area,subtotal,discountValue,extra,total,description,layout};
+updateCost();
+}
+
+function updateCost(){
+if(!current){
+$("costDisplay").textContent="—";
+$("profitDisplay").textContent="—";
+$("marginDisplay").textContent="—";return;
+}
+const method=$("costMethod").value;
+let rate=0;
+if(method==="unit")rate=num("unitCost");
+else rate=num("packUnits")>0?num("packPrice")/num("packUnits"):NaN;
+if(!Number.isFinite(rate)||rate<0){
+$("costDisplay").textContent="Semak kos";
+$("profitDisplay").textContent="—";
+$("marginDisplay").textContent="—";return;
+}
+const cost=current.area*rate;
+const profit=current.total-cost;
+$("costDisplay").textContent=money(cost);
+$("profitDisplay").textContent=money(profit);
+$("marginDisplay").textContent=current.total>0?
+(profit/current.total*100).toFixed(1)+"%":"—";
+}
+
+function loadCost(){
+const c=costs[$("mat").value]||{};
+$("costMethod").value=c.method||"unit";
+$("unitCost").value=c.unitCost??0;
+$("packPrice").value=c.packPrice??0;
+$("packUnits").value=c.packUnits??1;
+toggleCost();
+}
+function toggleCost(){
+const pack=$("costMethod").value==="pack";
+$("unitCostBox").classList.toggle("hidden",pack);
+$("packCostBox").classList.toggle("hidden",!pack);
+updateCost();
+}
+function saveCost(){
+costs[$("mat").value]={
+method:$("costMethod").value,
+unitCost:num("unitCost"),
+packPrice:num("packPrice"),
+packUnits:num("packUnits")
+};
+try{localStorage.setItem(costKey,JSON.stringify(costs));alert("Kos disimpan pada peranti ini.");}
+catch(e){alert("Pelayar tidak membenarkan simpanan.");}
+}
+function buildAdmin(){
+$("adminRates").innerHTML="";
+materials.forEach(m=>{
+const label=document.createElement("label");
+label.textContent=m.name+" (RM/"+m.unit+")";
+const input=document.createElement("input");
+input.type="number";input.min="0";input.step="any";
+input.value=m.rate;input.id="rate_"+m.id;
+$("adminRates").append(label,input);
+});
+}
+function saveRates(){
+for(const m of materials){
+const value=num("rate_"+m.id);
+if(!Number.isFinite(value)||value<0){
+alert("Semak kadar "+m.name);return;
+}
+}
+materials.forEach(m=>{
+m.rate=num("rate_"+m.id);
+rates[m.id]=m.rate;
+});
+try{localStorage.setItem(key,JSON.stringify(rates));}
+catch(e){alert("Kadar dikemas kini tetapi tidak dapat disimpan.");}
+calculate();alert("Kadar harga dikemas kini.");
+}
+function quote(){
+if(!current)return "";
+const c=current;
+return "DB STICKER ONLINE\n"+
+"QUOTATION\n"+
+"Material: "+c.m.name+"\n"+
+"Artwork: "+(c.m.type==="a3"?"A3":c.w+" × "+c.h+" "+(c.m.type==="inch"?"inci":"kaki"))+"\n"+
+"Kuantiti: "+c.qty+"\n"+
+"Pengiraan: "+c.description+"\n"+
+"Subtotal: "+money(c.subtotal)+"\n"+
+"Diskaun: "+money(c.discountValue)+"\n"+
+"Caj tambahan: "+money(c.extra)+"\n"+
+"JUMLAH: "+money(c.total)+"\n"+
+"Harga tertakluk kepada pengesahan artwork.";
+}
+function copyQuote(){
+if(!current){alert("Semak pengiraan dahulu.");return;}
+const t=quote();
+if(navigator.clipboard&&window.isSecureContext){
+navigator.clipboard.writeText(t).then(()=>alert("Quotation disalin.")).catch(()=>fallbackCopy(t));
+}else fallbackCopy(t);
+}
+function fallbackCopy(t){
+const a=document.createElement("textarea");
+a.value=t;document.body.appendChild(a);a.select();
+const ok=document.execCommand("copy");a.remove();
+alert(ok?"Quotation disalin.":"Tidak dapat salin. Cuba WhatsApp.");
+}
+function sendWA(){
+if(!current){alert("Semak pengiraan dahulu.");return;}
+window.open("https://wa.me/?text="+encodeURIComponent(quote()),"_blank");
+}
+$("mat").addEventListener("change",()=>{loadCost();calculate();});
+["w","h","qty","discount","extra","margin","gap","unitCost","packPrice","packUnits"].forEach(id=>{
+$(id).addEventListener("input",calculate);
+});
+$("costMethod").addEventListener("change",toggleCost);
+buildAdmin();
+loadCost();
 calculate();
 </script>
 </body>
